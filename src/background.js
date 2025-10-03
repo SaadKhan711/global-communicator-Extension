@@ -1,4 +1,3 @@
-// src/background.js
 import { aiService } from './services/AIService.js';
 
 /**

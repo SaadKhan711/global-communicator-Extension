@@ -1,4 +1,3 @@
-// src/content.jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toolbar } from './components/Toolbar';
@@ -15,19 +14,16 @@ const removeToolbar = () => {
   currentSelection = null;
 };
 
-// This is the function that will be passed to the Toolbar component
 const handleAction = (type, options = {}) => {
   return new Promise((resolve, reject) => {
     const text = currentSelection.toString();
-    const timeoutDuration = (type === 'PROOFREAD') ? 60000 : 30000;
-
+    const timeoutDuration = (type === 'REWRITE' || type === 'PROOFREAD') ? 120000 : 30000;
     const timeout = setTimeout(() => {
       reject(new Error("AI model timed out."));
     }, timeoutDuration);
 
-    // This is where we call chrome.runtime.sendMessage
     chrome.runtime.sendMessage({ type, text, options }, (response) => {
-      clearTimeout(timeout); // Clear the timeout if we get a response
+      clearTimeout(timeout); 
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
@@ -61,7 +57,6 @@ document.addEventListener('mouseup', () => {
       toolbarContainer.style.left = `${window.scrollX + rect.left}px`;
       
       toolbarRoot = createRoot(toolbarContainer);
-      // Pass the handleAction function as a prop
       toolbarRoot.render(<Toolbar onActionClick={handleAction} />);
     }
   }, 10);

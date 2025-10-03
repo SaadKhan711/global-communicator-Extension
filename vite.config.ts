@@ -7,10 +7,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        // We need to specify our entry points
-        // The default is index.html but we are building a chrome extension
-        // so we don't need it.
-        // popup: 'src/popup.html', // if you had a popup
+
         background: 'src/background.js',
         content: 'src/content.jsx',
       },
